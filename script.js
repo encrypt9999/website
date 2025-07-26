@@ -1,430 +1,715 @@
-// Cursor Trail Effect
-class CursorTrail {
-    constructor() {
-        this.canvas = document.getElementById('cursorTrail');
-        this.ctx = this.canvas.getContext('2d');
-        this.particles = [];
-        this.mouse = { x: 0, y: 0 };
-        this.lastMouse = { x: 0, y: 0 };
-        
-        this.MAX_PARTICLES = 450;
-        this.PARTICLE_LIFESPAN = 70;
-        this.PARTICLE_SEGMENT_LENGTH = 2.0;
-        this.LINE_WIDTH = 1.5;
-        this.COLOR_START_RGB = [200, 50, 255];
-        this.COLOR_END_RGB = [100, 0, 150];
-        this.SWIRL_INTENSITY = 0.4;
-        this.SWIRL_DAMPING = 0.9;
-        
-        this.init();
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000;
+    color: #fff;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Background Pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
+    background-size: 20px 20px;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Canvas Effects */
+#cursorTrail, #rainingParticles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+#rainingParticles {
+    z-index: 1;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #374151;
+    padding: 1rem 0;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.logo-accent {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #9333ea;
+}
+
+.nav {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #9ca3af;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #fff;
+}
+
+/* Main Content */
+main {
+    padding-top: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Hero Section */
+.hero {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.title-main {
+    color: #fff;
+}
+
+.title-accent {
+    color: #9333ea;
+}
+
+.hero-subtitle {
+    font-size: 2rem;
+    color: #9ca3af;
+    margin-bottom: 2rem;
+    font-weight: 300;
+}
+
+.hero-description {
+    font-size: 1.125rem;
+    color: #6b7280;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: #9333ea;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #7c3aed;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #9ca3af;
+    border: 1px solid #374151;
+}
+
+.btn-secondary:hover {
+    background: #1f2937;
+    color: #fff;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #b91c1c;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* Sections */
+section {
+    padding: 5rem 0;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.section-description {
+    font-size: 1.25rem;
+    color: #6b7280;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Features Section */
+.features {
+    background: linear-gradient(to bottom, transparent, rgba(17, 24, 39, 0.5));
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(17, 24, 39, 0.5);
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    border-color: rgba(147, 51, 234, 0.5);
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: #9333ea;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Panels Section */
+.panels {
+    background: rgba(17, 24, 39, 0.3);
+}
+
+.panels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.panel-card {
+    background: rgba(17, 24, 39, 0.5);
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.panel-card:hover {
+    border-color: rgba(147, 51, 234, 0.5);
+    transform: scale(1.02);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.panel-category {
+    background: rgba(147, 51, 234, 0.2);
+    color: #9333ea;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.panel-status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.panel-status.available {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.panel-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.panel-game {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.panel-stats {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.rating i {
+    color: #fbbf24;
+}
+
+.users {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.panel-video {
+    margin-bottom: 1.5rem;
+}
+
+.video-placeholder {
+    height: 200px;
+    background: rgba(31, 41, 55, 0.5);
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+}
+
+.video-placeholder i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #9333ea;
+}
+
+.panel-description {
+    color: #d1d5db;
+    margin-bottom: 1.5rem;
+}
+
+.panel-features h4 {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.panel-features ul {
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.panel-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #d1d5db;
+}
+
+.panel-features i {
+    color: #22c55e;
+    font-size: 0.75rem;
+}
+
+.panel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.period {
+    color: #6b7280;
+}
+
+.custom-panel-cta {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(to right, rgba(147, 51, 234, 0.2), rgba(59, 130, 246, 0.2));
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-radius: 0.5rem;
+}
+
+.custom-panel-cta h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.custom-panel-cta p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+/* Contact Section */
+.contact-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.contact-form-card,
+.contact-info-card {
+    background: rgba(17, 24, 39, 0.5);
+    border: 1px solid #374151;
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+
+.contact-form-card h3,
+.contact-info-card h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.contact-form-card p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.75rem;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 0.375rem;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #9333ea;
+}
+
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contact-method {
+    display: flex;
+    gap: 1rem;
+}
+
+.contact-icon {
+    width: 3rem;
+    height: 3rem;
+    background: rgba(147, 51, 234, 0.2);
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contact-icon i {
+    color: #9333ea;
+    font-size: 1.5rem;
+}
+
+.contact-details h4 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.contact-details p {
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+}
+
+.contact-details a {
+    color: #9333ea;
+    text-decoration: none;
+}
+
+.contact-details a:hover {
+    text-decoration: underline;
+}
+
+.contact-details small {
+    color: #6b7280;
+    font-size: 0.75rem;
+}
+
+.emergency-contact {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(to right, rgba(220, 38, 38, 0.2), rgba(251, 146, 60, 0.2));
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: 0.5rem;
+}
+
+.emergency-contact h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #f87171;
+    margin-bottom: 1rem;
+}
+
+.emergency-contact p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    background-color: #1f2937;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close {
+    color: #6b7280;
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
     }
     
-    init() {
-        this.resizeCanvas();
-        window.addEventListener('resize', () => this.resizeCanvas());
-        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
-        this.animate();
+    .hero-subtitle {
+        font-size: 1.5rem;
     }
     
-    resizeCanvas() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+    .section-title {
+        font-size: 2rem;
     }
     
-    handleMouseMove(e) {
-        const dx = e.clientX - this.lastMouse.x;
-        const dy = e.clientY - this.lastMouse.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance > this.PARTICLE_SEGMENT_LENGTH) {
-            const angle = Math.atan2(dy, dx);
-            const steps = Math.ceil(distance / this.PARTICLE_SEGMENT_LENGTH);
-            
-            for (let i = 0; i < steps; i++) {
-                const ratio = i / steps;
-                const x = this.lastMouse.x + dx * ratio;
-                const y = this.lastMouse.y + dy * ratio;
-                this.particles.push(new Particle(x, y, dx, dy, angle));
-            }
-        }
-        
-        this.mouse.x = e.clientX;
-        this.mouse.y = e.clientY;
-        this.lastMouse.x = e.clientX;
-        this.lastMouse.y = e.clientY;
+    .panels-grid {
+        grid-template-columns: 1fr;
     }
     
-    animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        for (let i = 0; i < this.particles.length; i++) {
-            const p = this.particles[i];
-            p.update();
-            p.draw(this.ctx);
-            
-            if (p.life > p.maxLife) {
-                this.particles.splice(i, 1);
-                i--;
-            }
-        }
-        
-        while (this.particles.length > this.MAX_PARTICLES) {
-            this.particles.shift();
-        }
-        
-        requestAnimationFrame(() => this.animate());
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav {
+        gap: 1rem;
+    }
+    
+    .nav-link span {
+        display: none;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
     }
 }
 
-class Particle {
-    constructor(x, y, dx, dy, angle) {
-        this.x = x;
-        this.y = y;
-        this.vx = dx * 0.4;
-        this.vy = dy * 0.4;
-        this.life = 0;
-        this.maxLife = 70 + Math.random() * 20;
-        
-        const perpendicularAngle = angle + Math.PI / 2;
-        this.vx += Math.cos(perpendicularAngle) * (Math.random() - 0.5) * 4;
-        this.vy += Math.sin(perpendicularAngle) * (Math.random() - 0.5) * 4;
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
     }
     
-    update() {
-        this.vx *= 0.9;
-        this.vy *= 0.9;
-        this.x += this.vx;
-        this.y += this.vy;
-        this.life++;
+    .hero-title {
+        font-size: 2rem;
     }
     
-    draw(ctx) {
-        const opacity = 1 - this.life / this.maxLife;
-        if (opacity <= 0) return;
-        
-        const r = 200 + (100 - 200) * (this.life / this.maxLife);
-        const g = 50 + (0 - 50) * (this.life / this.maxLife);
-        const b = 255 + (150 - 255) * (this.life / this.maxLife);
-        
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${opacity})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 1.5 / 2, 0, Math.PI * 2);
-        ctx.fill();
+    .panels-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .panel-card {
+        padding: 1rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
     }
 }
 
-// Raining Particles Effect
-class RainingParticles {
-    constructor() {
-        this.canvas = document.getElementById('rainingParticles');
-        this.ctx = this.canvas.getContext('2d');
-        this.particles = [];
-        this.PARTICLE_COUNT = 150;
-        this.COLORS = [
-            'rgba(147, 51, 234, 0.8)',
-            'rgba(168, 85, 247, 0.6)',
-            'rgba(196, 181, 253, 0.4)',
-            'rgba(255, 255, 255, 0.3)'
-        ];
-        
-        this.init();
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    
-    init() {
-        this.resizeCanvas();
-        window.addEventListener('resize', () => this.resizeCanvas());
-        this.initParticles();
-        this.animate();
-    }
-    
-    resizeCanvas() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-    }
-    
-    initParticles() {
-        this.particles = [];
-        for (let i = 0; i < this.PARTICLE_COUNT; i++) {
-            const particle = new RainParticle(this.canvas.width, this.canvas.height, this.COLORS);
-            particle.y = Math.random() * this.canvas.height;
-            this.particles.push(particle);
-        }
-    }
-    
-    animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        this.particles.forEach(particle => {
-            particle.update(this.canvas.height);
-            particle.draw(this.ctx);
-        });
-        
-        requestAnimationFrame(() => this.animate());
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-class RainParticle {
-    constructor(canvasWidth, canvasHeight, colors) {
-        this.x = Math.random() * canvasWidth;
-        this.y = -10;
-        this.speed = Math.random() * 1 + 0.5;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.opacity = Math.random() * 0.5 + 0.3;
-    }
-    
-    update(canvasHeight) {
-        this.y += this.speed;
-        
-        if (this.y > canvasHeight + 10) {
-            this.y = -10;
-            this.x = Math.random() * window.innerWidth;
-            this.speed = Math.random() * 1 + 0.5;
-        }
-    }
-    
-    draw(ctx) {
-        ctx.save();
-        ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-    }
+.panel-card,
+.feature-card,
+.contact-form-card,
+.contact-info-card {
+    animation: fadeInUp 0.6s ease-out;
 }
-
-// Navigation
-function initNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                targetSection.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                
-                // Update active nav link
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            }
-        });
-    });
-    
-    // Update active nav on scroll
-    window.addEventListener('scroll', () => {
-        const sections = document.querySelectorAll('section');
-        const scrollPos = window.scrollY + 100;
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    });
-}
-
-// Panel Modal
-function openPanel(panelType) {
-    const modal = document.getElementById('panelModal');
-    const modalContent = document.getElementById('modalContent');
-    
-    const panelData = {
-        valorant: {
-            title: 'Valorant Pro Panel',
-            category: 'FPS',
-            price: '$29.99/month',
-            rating: '4.9',
-            users: '1,250',
-            description: 'Advanced Valorant panel with aimbot, wallhack, and triggerbot features designed for competitive gameplay.',
-            features: ['Undetected Aimbot', 'ESP/Wallhack', 'Triggerbot', 'No Recoil', 'Radar Hack', '24/7 Support']
-        },
-        cs2: {
-            title: 'CS2 Elite Hack',
-            category: 'FPS',
-            price: '$24.99/month',
-            rating: '4.8',
-            users: '2,100',
-            description: 'Professional CS2 cheat with advanced anti-detection and premium features for Counter-Strike 2.',
-            features: ['Legit Aimbot', 'Glow ESP', 'Bhop Script', 'Skin Changer', 'Rank Reveal', 'Stream Proof']
-        },
-        apex: {
-            title: 'Apex Legends Dominator',
-            category: 'Battle Royale',
-            price: '$34.99/month',
-            rating: '4.7',
-            users: '890',
-            description: 'Ultimate Apex Legends panel with prediction aimbot and advanced ESP for battle royale domination.',
-            features: ['Prediction Aimbot', '3D ESP', 'Item ESP', 'No Spread', 'Speed Hack', 'Auto Updates']
-        },
-        fortnite: {
-            title: 'Fortnite Victory Panel',
-            category: 'Battle Royale',
-            price: '$39.99/month',
-            rating: '4.6',
-            users: '1,560',
-            description: 'Premium Fortnite cheat with silent aim and building assistance for consistent Victory Royales.',
-            features: ['Silent Aimbot', 'Player ESP', 'Loot ESP', 'Build Assist', 'Storm Prediction', 'Anti-Ban System']
-        },
-        pubg: {
-            title: 'PUBG Master Hack',
-            category: 'Battle Royale',
-            price: '$27.99/month',
-            rating: '4.5',
-            users: '750',
-            description: 'Advanced PUBG panel with vehicle ESP and weapon customization for chicken dinner victories.',
-            features: ['Smooth Aimbot', 'Vehicle ESP', 'Weapon ESP', 'No Grass', 'Speed Boost', 'Magic Bullet']
-        },
-        brutal: {
-            title: 'Brutal Panel',
-            category: 'Premium',
-            price: '$14.05 one-time',
-            rating: '4.9',
-            users: '850',
-            description: 'Comprehensive suite of advanced tools to maximize gaming performance and dominate the competition.',
-            features: ['Gaming Enhancements', 'Performance Analytics', 'Hardware Optimization', 'Custom Macros', 'Priority Support']
-        }
-    };
-    
-    const panel = panelData[panelType];
-    if (!panel) return;
-    
-    modalContent.innerHTML = `
-        <div class="panel-modal-content">
-            <div class="panel-modal-header">
-                <span class="panel-category">${panel.category}</span>
-                <h2>${panel.title}</h2>
-                <div class="panel-stats">
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <span>${panel.rating}</span>
-                    </div>
-                    <div class="users">
-                        <i class="fas fa-gamepad"></i>
-                        <span>${panel.users} users</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="panel-modal-body">
-                <div class="panel-video">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play"></i>
-                        <p>Panel Demo Video</p>
-                    </div>
-                </div>
-                
-                <p class="panel-description">${panel.description}</p>
-                
-                <div class="panel-features">
-                    <h4>Features:</h4>
-                    <ul>
-                        ${panel.features.map(feature => `<li><i class="fas fa-check"></i> ${feature}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="system-requirements">
-                    <h4>System Requirements:</h4>
-                    <div class="requirements-grid">
-                        <div>
-                            <h5>Minimum:</h5>
-                            <ul>
-                                <li>Windows 10/11 64-bit</li>
-                                <li>8GB RAM</li>
-                                <li>DirectX 11 compatible GPU</li>
-                                <li>500MB free disk space</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h5>Recommended:</h5>
-                            <ul>
-                                <li>Windows 11 64-bit</li>
-                                <li>16GB RAM</li>
-                                <li>GTX 1060 or better</li>
-                                <li>SSD storage</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="panel-actions">
-                    <div class="panel-price">
-                        <span class="price">${panel.price}</span>
-                    </div>
-                    <div class="panel-buttons">
-                        <button class="btn btn-primary" onclick="window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
-                            <i class="fas fa-download"></i>
-                            Purchase Panel
-                        </button>
-                        <button class="btn btn-secondary" onclick="window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
-                            Try Free Trial
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    modal.style.display = 'block';
-}
-
-function closeModal() {
-    const modal = document.getElementById('panelModal');
-    modal.style.display = 'none';
-}
-
-// Contact Form
-function submitForm(event) {
-    event.preventDefault();
-    
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    
-    // Simulate form submission
-    alert('Thank you for your message! We will get back to you within 24 hours.');
-    event.target.reset();
-}
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new CursorTrail();
-    new RainingParticles();
-    initNavigation();
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', (event) => {
-        const modal = document.getElementById('panelModal');
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-});
-
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
