@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0e0e0e;
+  color: white;
+  overflow-x: hidden;
+}
+canvas#particleCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: -1;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.85);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-size: 24px;
+  color: white;
+}
+.logo span {
+  color: #9333ea;
+}
+.nav a {
+  margin-left: 20px;
+  color: white;
+  text-decoration: none;
+}
+.hero {
+  padding-top: 120px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 72px;
+  color: #a855f7;
+}
+.hero .buttons {
+  margin-top: 20px;
+}
+.btn {
+  padding: 12px 24px;
+  background: #9333ea;
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+.btn.outline {
+  background: transparent;
+  border: 2px solid #9333ea;
+}
+.btn:hover {
+  background: #a855f7;
+}
+.panels {
+  padding: 60px 20px;
+  text-align: center;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+.card {
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  transition: transform 0.3s, border 0.3s;
+  border: 1px solid #9333ea33;
+}
+.card:hover {
+  transform: scale(1.05);
+  border-color: #a855f7;
+}
+.contact {
+  padding: 60px 20px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: auto;
+}
+form input, form textarea, form select, form button {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  background: #1e1e1e;
+  color: white;
+}
+form button {
+  background: #9333ea;
+  cursor: pointer;
+}
+.contact-info {
+  text-align: center;
+  margin-top: 20px;
+}
