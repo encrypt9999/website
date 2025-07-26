@@ -1,59 +1,547 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ENCRYPT CHEATS</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENCRYPT CHEATS - Premium Gaming Panels</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-  <canvas id="particleCanvas"></canvas>
-  <header class="header">
-    <h1 class="logo">ENCRYPT <span>CHEATS</span></h1>
-    <nav class="nav">
-      <a href="#home">Home</a>
-      <a href="#panels">Panels</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+    <!-- Cursor Trail Canvas -->
+    <canvas id="cursorTrail"></canvas>
+    
+    <!-- Raining Particles Canvas -->
+    <canvas id="rainingParticles"></canvas>
 
-  <section id="home" class="hero">
-    <h1>ENCRYPT CHEATS</h1>
-    <p>All Server Safe Panels Here</p>
-    <div class="buttons">
-      <a href="#panels" class="btn">Explore Panels</a>
-      <a href="#contact" class="btn outline">Contact Us</a>
+    <!-- Fixed Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-text">ENCRYPT</span>
+                <span class="logo-accent">CHEATS</span>
+            </div>
+            <nav class="nav">
+                <a href="#home" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#panels" class="nav-link">
+                    <i class="fas fa-th"></i>
+                    <span>Panels</span>
+                </a>
+                <a href="#contact" class="nav-link">
+                    <i class="fas fa-comments"></i>
+                    <span>Contact</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="title-main">ENCRYPT </span>
+                        <span class="title-accent">CHEATS</span>
+                    </h1>
+                    <h2 class="hero-subtitle">All Server Safe Panels Here</h2>
+                    <p class="hero-description">
+                        Elevate your gaming experience with our premium selection of gaming panels. 
+                        Designed by gamers, for gamers, our tools provide the edge you need to dominate the competition.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#panels" class="btn btn-primary">Explore Panels</a>
+                        <a href="#contact" class="btn btn-secondary">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Why Choose Our Panels?</h2>
+                    <p class="section-description">
+                        Experience the best gaming panels with cutting-edge features and unmatched support
+                    </p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3>Server Safe</h3>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bolt feature-icon"></i>
+                        <h3>Fast Performance</h3>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-clock feature-icon"></i>
+                        <h3>24/7 Support</h3>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-sync-alt feature-icon"></i>
+                        <h3>Regular Updates</h3>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lock feature-icon"></i>
+                        <h3>Secure Payment</h3>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-star feature-icon"></i>
+                        <h3>Premium Quality</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Panels Section -->
+        <section id="panels" class="panels">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="title-main">Premium </span>
+                        <span class="title-accent">Gaming Panels</span>
+                    </h2>
+                    <p class="section-description">
+                        Discover our collection of professional gaming panels designed to give you the competitive edge you need.
+                    </p>
+                </div>
+
+                <div class="panels-grid">
+                    <!-- Valorant Panel -->
+                    <div class="panel-card" onclick="openPanel('valorant')">
+                        <div class="panel-header">
+                            <span class="panel-category">FPS</span>
+                            <span class="panel-status available">Available</span>
+                        </div>
+                        <h3 class="panel-title">Valorant Pro Panel</h3>
+                        <p class="panel-game">Valorant</p>
+                        <div class="panel-stats">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                            <div class="users">
+                                <i class="fas fa-gamepad"></i>
+                                <span>1,250 users</span>
+                            </div>
+                        </div>
+                        <div class="panel-video">
+                            <div class="video-placeholder">
+                                <i class="fas fa-play"></i>
+                                <p>Panel Demo Video</p>
+                            </div>
+                        </div>
+                        <p class="panel-description">
+                            Advanced Valorant panel with aimbot, wallhack, and triggerbot features.
+                        </p>
+                        <div class="panel-features">
+                            <h4>Features:</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Undetected Aimbot</li>
+                                <li><i class="fas fa-check"></i> ESP/Wallhack</li>
+                                <li><i class="fas fa-check"></i> Triggerbot</li>
+                                <li><i class="fas fa-check"></i> No Recoil</li>
+                                <li><i class="fas fa-check"></i> Radar Hack</li>
+                                <li><i class="fas fa-check"></i> 24/7 Support</li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="panel-price">
+                                <span class="price">$29.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
+                                Get Panel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- CS2 Panel -->
+                    <div class="panel-card" onclick="openPanel('cs2')">
+                        <div class="panel-header">
+                            <span class="panel-category">FPS</span>
+                            <span class="panel-status available">Available</span>
+                        </div>
+                        <h3 class="panel-title">CS2 Elite Hack</h3>
+                        <p class="panel-game">Counter-Strike 2</p>
+                        <div class="panel-stats">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                            <div class="users">
+                                <i class="fas fa-gamepad"></i>
+                                <span>2,100 users</span>
+                            </div>
+                        </div>
+                        <div class="panel-video">
+                            <div class="video-placeholder">
+                                <i class="fas fa-play"></i>
+                                <p>Panel Demo Video</p>
+                            </div>
+                        </div>
+                        <p class="panel-description">
+                            Professional CS2 cheat with advanced anti-detection and premium features.
+                        </p>
+                        <div class="panel-features">
+                            <h4>Features:</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Legit Aimbot</li>
+                                <li><i class="fas fa-check"></i> Glow ESP</li>
+                                <li><i class="fas fa-check"></i> Bhop Script</li>
+                                <li><i class="fas fa-check"></i> Skin Changer</li>
+                                <li><i class="fas fa-check"></i> Rank Reveal</li>
+                                <li><i class="fas fa-check"></i> Stream Proof</li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="panel-price">
+                                <span class="price">$24.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
+                                Get Panel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Apex Panel -->
+                    <div class="panel-card" onclick="openPanel('apex')">
+                        <div class="panel-header">
+                            <span class="panel-category">Battle Royale</span>
+                            <span class="panel-status available">Available</span>
+                        </div>
+                        <h3 class="panel-title">Apex Legends Dominator</h3>
+                        <p class="panel-game">Apex Legends</p>
+                        <div class="panel-stats">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                            <div class="users">
+                                <i class="fas fa-gamepad"></i>
+                                <span>890 users</span>
+                            </div>
+                        </div>
+                        <div class="panel-video">
+                            <div class="video-placeholder">
+                                <i class="fas fa-play"></i>
+                                <p>Panel Demo Video</p>
+                            </div>
+                        </div>
+                        <p class="panel-description">
+                            Ultimate Apex Legends panel with prediction aimbot and advanced ESP.
+                        </p>
+                        <div class="panel-features">
+                            <h4>Features:</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Prediction Aimbot</li>
+                                <li><i class="fas fa-check"></i> 3D ESP</li>
+                                <li><i class="fas fa-check"></i> Item ESP</li>
+                                <li><i class="fas fa-check"></i> No Spread</li>
+                                <li><i class="fas fa-check"></i> Speed Hack</li>
+                                <li><i class="fas fa-check"></i> Auto Updates</li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="panel-price">
+                                <span class="price">$34.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
+                                Get Panel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Fortnite Panel -->
+                    <div class="panel-card" onclick="openPanel('fortnite')">
+                        <div class="panel-header">
+                            <span class="panel-category">Battle Royale</span>
+                            <span class="panel-status available">Available</span>
+                        </div>
+                        <h3 class="panel-title">Fortnite Victory Panel</h3>
+                        <p class="panel-game">Fortnite</p>
+                        <div class="panel-stats">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.6</span>
+                            </div>
+                            <div class="users">
+                                <i class="fas fa-gamepad"></i>
+                                <span>1,560 users</span>
+                            </div>
+                        </div>
+                        <div class="panel-video">
+                            <div class="video-placeholder">
+                                <i class="fas fa-play"></i>
+                                <p>Panel Demo Video</p>
+                            </div>
+                        </div>
+                        <p class="panel-description">
+                            Premium Fortnite cheat with silent aim and building assistance.
+                        </p>
+                        <div class="panel-features">
+                            <h4>Features:</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Silent Aimbot</li>
+                                <li><i class="fas fa-check"></i> Player ESP</li>
+                                <li><i class="fas fa-check"></i> Loot ESP</li>
+                                <li><i class="fas fa-check"></i> Build Assist</li>
+                                <li><i class="fas fa-check"></i> Storm Prediction</li>
+                                <li><i class="fas fa-check"></i> Anti-Ban System</li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="panel-price">
+                                <span class="price">$39.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
+                                Get Panel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- PUBG Panel -->
+                    <div class="panel-card" onclick="openPanel('pubg')">
+                        <div class="panel-header">
+                            <span class="panel-category">Battle Royale</span>
+                            <span class="panel-status available">Available</span>
+                        </div>
+                        <h3 class="panel-title">PUBG Master Hack</h3>
+                        <p class="panel-game">PUBG</p>
+                        <div class="panel-stats">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.5</span>
+                            </div>
+                            <div class="users">
+                                <i class="fas fa-gamepad"></i>
+                                <span>750 users</span>
+                            </div>
+                        </div>
+                        <div class="panel-video">
+                            <div class="video-placeholder">
+                                <i class="fas fa-play"></i>
+                                <p>Panel Demo Video</p>
+                            </div>
+                        </div>
+                        <p class="panel-description">
+                            Advanced PUBG panel with vehicle ESP and weapon customization.
+                        </p>
+                        <div class="panel-features">
+                            <h4>Features:</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Smooth Aimbot</li>
+                                <li><i class="fas fa-check"></i> Vehicle ESP</li>
+                                <li><i class="fas fa-check"></i> Weapon ESP</li>
+                                <li><i class="fas fa-check"></i> No Grass</li>
+                                <li><i class="fas fa-check"></i> Speed Boost</li>
+                                <li><i class="fas fa-check"></i> Magic Bullet</li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="panel-price">
+                                <span class="price">$27.99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
+                                Get Panel
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Brutal Panel -->
+                    <div class="panel-card" onclick="openPanel('brutal')">
+                        <div class="panel-header">
+                            <span class="panel-category">Premium</span>
+                            <span class="panel-status available">Available</span>
+                        </div>
+                        <h3 class="panel-title">Brutal Panel</h3>
+                        <p class="panel-game">Multi-Game</p>
+                        <div class="panel-stats">
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                            <div class="users">
+                                <i class="fas fa-gamepad"></i>
+                                <span>850 users</span>
+                            </div>
+                        </div>
+                        <div class="panel-video">
+                            <div class="video-placeholder">
+                                <i class="fas fa-play"></i>
+                                <p>Panel Demo Video</p>
+                            </div>
+                        </div>
+                        <p class="panel-description">
+                            Comprehensive suite of advanced tools to maximize gaming performance.
+                        </p>
+                        <div class="panel-features">
+                            <h4>Features:</h4>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Gaming Enhancements</li>
+                                <li><i class="fas fa-check"></i> Performance Analytics</li>
+                                <li><i class="fas fa-check"></i> Hardware Optimization</li>
+                                <li><i class="fas fa-check"></i> Custom Macros</li>
+                                <li><i class="fas fa-check"></i> Priority Support</li>
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="panel-price">
+                                <span class="price">$14.05</span>
+                                <span class="period">one-time</span>
+                            </div>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); window.open('https://discord.gg/DrZDnsW5ZN', '_blank')">
+                                Get Panel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom Panel CTA -->
+                <div class="custom-panel-cta">
+                    <h3>Need a Custom Panel?</h3>
+                    <p>Looking for a specific game or custom features? Contact us for personalized gaming solutions.</p>
+                    <a href="#contact" class="btn btn-primary">Request Custom Panel</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="title-main">Get in </span>
+                        <span class="title-accent">Touch</span>
+                    </h2>
+                    <p class="section-description">
+                        Have questions about our panels? Need technical support? We're here to help you dominate the competition.
+                    </p>
+                </div>
+
+                <div class="contact-content">
+                    <div class="contact-form-container">
+                        <div class="contact-form-card">
+                            <h3>Send us a Message</h3>
+                            <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+                            <form class="contact-form" onsubmit="submitForm(event)">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="name">Full Name</label>
+                                        <input type="text" id="name" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="category">Category</label>
+                                        <select id="category" name="category" required>
+                                            <option value="">Select a category</option>
+                                            <option value="technical">Technical Support</option>
+                                            <option value="billing">Billing & Payment</option>
+                                            <option value="panel">Panel Request</option>
+                                            <option value="bug">Bug Report</option>
+                                            <option value="general">General Inquiry</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subject">Subject</label>
+                                        <input type="text" id="subject" name="subject" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" rows="5" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-full">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <div class="contact-info-card">
+                            <h3>Contact Information</h3>
+                            <div class="contact-methods">
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h4>Email Support</h4>
+                                        <p>encryptcheats9999@gmail.com</p>
+                                        <small>Response within 24 hours</small>
+                                    </div>
+                                </div>
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fab fa-discord"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h4>Discord Server</h4>
+                                        <p><a href="https://discord.gg/DrZDnsW5ZN" target="_blank">Join our community</a></p>
+                                        <small>Instant support & updates</small>
+                                    </div>
+                                </div>
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h4>Direct Message</h4>
+                                        <p>DM amithnayak</p>
+                                        <small>For urgent matters</small>
+                                    </div>
+                                </div>
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h4>Support Hours</h4>
+                                        <p>24/7 Automated</p>
+                                        <small>Live support: 9 AM - 11 PM EST</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Contact -->
+                <div class="emergency-contact">
+                    <h3>Urgent Panel Issues?</h3>
+                    <p>If you're experiencing detection issues or urgent technical problems, contact us immediately.</p>
+                    <a href="https://discord.gg/DrZDnsW5ZN" target="_blank" class="btn btn-danger">Emergency Support</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Panel Modal -->
+    <div id="panelModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
     </div>
-  </section>
 
-  <section id="panels" class="panels">
-    <h2>Our Panels</h2>
-    <div class="grid">
-      <div class="card">Valorant Pro Panel - $29.99</div>
-      <div class="card">CS2 Elite Hack - $24.99</div>
-      <div class="card">Apex Dominator - $34.99</div>
-      <div class="card">Fortnite Victory Panel - $39.99</div>
-      <div class="card">PUBG Master Hack - $27.99</div>
-      <div class="card">Brutal Panel - $14.05</div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact">
-    <h2>Contact Us</h2>
-    <form>
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Your Email" required />
-      <select><option>Category</option><option>Purchase</option></select>
-      <input type="text" placeholder="Subject" />
-      <textarea placeholder="Message"></textarea>
-      <button type="submit">Send</button>
-    </form>
-    <div class="contact-info">
-      <p>Email: encryptcheats9999@gmail.com</p>
-      <p>Discord: <a href="https://discord.gg/DrZDnsW5ZN" target="_blank">Join Server</a></p>
-    </div>
-  </section>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
